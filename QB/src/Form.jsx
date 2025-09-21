@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Button from "./Button";
 
 export default function Form() {
   const [label, setLabel] = useState("");
@@ -64,8 +65,7 @@ export default function Form() {
       order,
       default: defaultValue || null,
     };
-
-    console.log("Posting fieldJson:", fieldJson);
+    console.log("JSON:",fieldJson);
   };
 
   const handleCancel = () => {
@@ -75,20 +75,19 @@ export default function Form() {
     setChoices("");
     setOrder("alpha");
     setError("");
-    localStorage.removeItem("savedField");
   };
 
   return (
-    <div className="bg-white border border-gray-300 rounded-lg shadow-md w-full max-w-2xl mx-auto">
+    <div className="bg-white border border-gray-300 rounded-lg shadow-md w-full max-w-xl mx-auto">
       <div className="bg-blue-100 text-blue-900 font-bold px-4 py-2 rounded-t-lg border-b border-gray-300">
         Field Builder
       </div>
 
       <form onSubmit={handleSubmit} className="divide-y divide-gray-200">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center p-4">
+        <div className="flex flex-col sm:flex-row items-center p-4">
           <label
             htmlFor="label"
-            className="w-full sm:w-40 font-semibold text-gray-700 mb-2 sm:mb-0"
+            className="w-full sm:w-40 font-semibold text-gray-700 mb-2 sm:mb-0 pl-6"
           >
             Label
           </label>
@@ -98,19 +97,19 @@ export default function Form() {
             value={label}
             onChange={(e) => setLabel(e.target.value)}
             placeholder="Enter field label"
-            className="w-full sm:flex-1 border rounded px-3 py-2 text-sm"
+            className="w-80 border rounded px-3 py-2 text-sm"
           />
         </div>
 
-        <div className="flex flex-col sm:flex-row items-start sm:items-center p-4">
-          <label className="w-full sm:w-40 font-semibold text-gray-700 mb-2 sm:mb-0">
+        <div className="flex flex-col sm:flex-row items-center p-4">
+          <label className="w-full sm:w-40 font-semibold text-gray-700 mb-2 sm:mb-0 pl-6">
             Type
           </label>
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 w-full sm:w-auto">
-            <span className="bg-gray-100 border rounded px-3 py-1 text-sm">
+          <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
+            <span className="rounded py-1 text-base">
               Multi-select
             </span>
-            <label className="flex items-center gap-2 text-sm">
+            <label className="flex items-center gap-2 text-sm pl-6">
               <input
                 type="checkbox"
                 checked={required}
@@ -121,10 +120,10 @@ export default function Form() {
           </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-start sm:items-center p-4">
+        <div className="flex flex-col sm:flex-row items-center p-4">
           <label
             htmlFor="default"
-            className="w-full sm:w-40 font-semibold text-gray-700 mb-2 sm:mb-0"
+            className="w-full sm:w-40 font-semibold text-gray-700 mb-2 sm:mb-0 pl-6"
           >
             Default Value
           </label>
@@ -134,17 +133,17 @@ export default function Form() {
             value={defaultValue}
             onChange={(e) => setDefaultValue(e.target.value)}
             placeholder="Enter default value"
-            className="w-full sm:flex-1 border rounded px-3 py-2 text-sm"
+            className="w-80 border rounded px-3 py-2 text-sm"
           />
         </div>
-        <div className="flex flex-col sm:flex-row items-start p-4">
+        <div className="flex flex-col sm:flex-row items-center p-4">
           <label
             htmlFor="choices"
-            className="w-full sm:w-40 font-semibold text-gray-700 mb-2 sm:mb-0"
+            className="w-full sm:w-40 font-semibold text-gray-700 mb-6 sm:mb-0 pl-6"
           >
             Choices
           </label>
-          <div className="relative flex-1 w-full">
+        <div className="flex flex-col sm:flex-row items-center">
             <div
               className="absolute inset-0 pointer-events-none whitespace-pre-wrap px-3 py-2 text-sm text-gray-700 overflow-y-auto"
               id="highlightLayer"
@@ -163,14 +162,14 @@ export default function Form() {
                 }
               }}
               placeholder="Enter one choice per line"
-              className="relative w-full border border-black rounded px-3 py-2 text-sm resize-y bg-transparent text-transparent caret-black overflow-y-auto"
+              className="relative w-80 border border-black rounded px-3 py-2 text-sm resize-y bg-transparent text-transparent caret-black overflow-y-auto"
             />
           </div>
         </div>
-        <div className="flex flex-col sm:flex-row items-start sm:items-center p-4">
+        <div className="flex flex-col sm:flex-row items-center p-4">
           <label
             htmlFor="order"
-            className="w-full sm:w-40 font-semibold text-gray-700 mb-2 sm:mb-0"
+            className="w-full sm:w-40 font-semibold text-gray-700 mb-2 sm:mb-0 pl-6"
           >
             Order
           </label>
@@ -178,32 +177,24 @@ export default function Form() {
             id="order"
             value={order}
             onChange={(e) => setOrder(e.target.value)}
-            className="w-full sm:flex-1 border rounded px-3 py-2 text-sm"
+            className="w-80 border rounded px-3 py-2 text-sm"
           >
             <option value="alpha">Display choices in Alphabetical order</option>
             <option value="custom">Custom order</option>
           </select>
         </div>
 
-        {error && (
-          <div className="text-red-600 text-sm px-4 py-2">{error}</div>
-        )}
+        {error && <div className="text-red-600 text-sm px-4 py-2">{error}</div>}
 
-        <div className="flex flex-col sm:flex-row justify-end items-center gap-3 p-4">
-          <button
-            type="submit"
-            className="bg-green-600 text-white font-bold px-4 py-2 rounded hover:bg-green-700 w-full sm:w-auto"
-          >
+        <div className="flex flex-col sm:flex-row justify-center items-center p-4">
+          <Button type="submit" variant="submit" onClick={handleSubmit}>
             Save changes
-          </button>
+          </Button>
+
           <span className="text-gray-500 hidden sm:inline">Or</span>
-          <button
-            type="button"
-            onClick={handleCancel}
-            className="text-red-600 font-bold underline hover:text-red-800 w-full sm:w-auto"
-          >
+          <Button type="button" variant="cancel" onClick={handleCancel}>
             Cancel
-          </button>
+          </Button>
         </div>
       </form>
     </div>
