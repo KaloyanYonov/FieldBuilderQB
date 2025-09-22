@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import Button from "./Button";
+import Button from "./components/Button";
+import MockService from "./services/MockService";
 
 export default function Form() {
   const [label, setLabel] = useState("");
@@ -12,9 +13,8 @@ export default function Form() {
   const badWords = ["testing", "bad", "word"];
 
   useEffect(() => {
-    const saved = localStorage.getItem("savedField");
-    if (saved) {
-      const data = JSON.parse(saved);
+    const data = MockService.getField();
+    if (data) {
       setLabel(data.label || "");
       setRequired(!!data.required);
       setDefaultValue(data.default || "");
@@ -89,9 +89,8 @@ export default function Form() {
       order,
       default: defaultValue || null,
     };
-    console.log("JSON:", fieldJson);
+    MockService.saveField(fieldJson); 
 
-    localStorage.setItem("savedField", JSON.stringify(fieldJson));
   };
 
   const handleCancel = () => {
