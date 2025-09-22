@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Button from "./Button";
 
 export default function Form() {
@@ -8,6 +8,22 @@ export default function Form() {
   const [choices, setChoices] = useState("");
   const [order, setOrder] = useState("alpha");
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    const saved = localStorage.getItem("savedField");
+    if (saved) {
+      const data = JSON.parse(saved);
+      setLabel(data.label || "");
+      setRequired(!!data.required);
+      setDefaultValue(data.default || "");
+      let arr = data.choices || [];
+      if (data.default && !arr.includes(data.default)) {
+        arr.push(data.default);
+      }
+      setChoices(arr.join("\n"));
+      setOrder(data.order || "alpha");
+    }
+  }, []);
 
   const renderHighlighted = (text) => {
     return text.split("\n").map((line, i) => {
@@ -65,7 +81,9 @@ export default function Form() {
       order,
       default: defaultValue || null,
     };
-    console.log("JSON:",fieldJson);
+    console.log("JSON:", fieldJson);
+
+    localStorage.setItem("savedField", JSON.stringify(fieldJson));
   };
 
   const handleCancel = () => {
@@ -75,6 +93,8 @@ export default function Form() {
     setChoices("");
     setOrder("alpha");
     setError("");
+
+    localStorage.removeItem("savedField");
   };
 
   return (
@@ -106,9 +126,7 @@ export default function Form() {
             Type
           </label>
           <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
-            <span className="rounded py-1 text-base">
-              Multi-select
-            </span>
+            <span className="rounded py-1 text-base">Multi-select</span>
             <label className="flex items-center gap-2 text-sm pl-6">
               <input
                 type="checkbox"
@@ -143,13 +161,14 @@ export default function Form() {
           >
             Choices
           </label>
-        <div className="flex flex-col sm:flex-row items-center">
+          <div className="relative w-80 flex flex-col sm:flex-row items-center">
             <div
-              className="absolute inset-0 pointer-events-none whitespace-pre-wrap px-3 py-2 text-sm text-gray-700 overflow-y-auto"
+              className="absolute inset-0 pointer-events-none whitespace-pre-wrap break-words px-3 py-2 text-sm text-gray-700 overflow-y-auto"
               id="highlightLayer"
             >
               {renderHighlighted(choices)}
             </div>
+
             <textarea
               id="choices"
               rows="6"
@@ -162,7 +181,7 @@ export default function Form() {
                 }
               }}
               placeholder="Enter one choice per line"
-              className="relative w-80 border border-black rounded px-3 py-2 text-sm resize-y bg-transparent text-transparent caret-black overflow-y-auto"
+              className="relative w-80 border bg-transparent text-transparent border-black rounded px-3 py-2 text-sm resize-y caret-black overflow-y-auto"
             />
           </div>
         </div>
