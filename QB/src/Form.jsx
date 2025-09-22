@@ -9,6 +9,8 @@ export default function Form() {
   const [order, setOrder] = useState("alpha");
   const [error, setError] = useState("");
 
+  const badWords = ["testing", "bad", "word"];
+
   useEffect(() => {
     const saved = localStorage.getItem("savedField");
     if (saved) {
@@ -71,6 +73,12 @@ export default function Form() {
 
     if (choicesArr.length > 50) {
       setError("Adding the default value made the list exceed 50 choices!");
+      return;
+    }
+
+    // Added idea by me : prohibit the usage of certain words of your choosing (in the badWords array)
+    if (choicesArr.some((choice) => badWords.includes(choice.toLowerCase()))) {
+      setError("You cannot use bad words. One or more of your choices contain hateful speech.");
       return;
     }
 
