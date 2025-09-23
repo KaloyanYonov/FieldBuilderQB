@@ -9,6 +9,7 @@ export default function Form() {
   const [choices, setChoices] = useState("");
   const [order, setOrder] = useState("alpha");
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   const badWords = ["testing", "bad", "word"];
 
@@ -89,6 +90,8 @@ export default function Form() {
       order,
       default: defaultValue || null,
     };
+    
+    setSuccess("JSON created successfully!");
     MockService.saveField(fieldJson); 
 
   };
@@ -100,6 +103,7 @@ export default function Form() {
     setChoices("");
     setOrder("alpha");
     setError("");
+    setSuccess("");
 
     localStorage.removeItem("savedField");
   };
@@ -210,7 +214,7 @@ export default function Form() {
           </select>
         </div>
 
-        {error && <div className="text-red-600 text-sm px-4 py-2">{error}</div>}
+        {error ? <div className="text-red-600 text-sm px-4 py-2">{error}</div> : <div className="text-green-600 text-sm px-4 py-2">{success}</div>}
 
         <div className="flex flex-col sm:flex-row justify-center items-center p-4">
           <Button type="submit" variant="submit" onClick={handleSubmit}>
