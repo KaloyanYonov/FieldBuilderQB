@@ -28,6 +28,8 @@ export default function Form() {
     }
   }, []);
 
+
+
   const renderHighlighted = (text) => {
     return text.split("\n").map((line, i) => {
       if (line.length <= 40) {
@@ -107,6 +109,8 @@ export default function Form() {
 
     localStorage.removeItem("savedField");
   };
+
+
 
   return (
     <div className="bg-white border border-gray-300 rounded-lg shadow-md w-full max-w-xl mx-auto">

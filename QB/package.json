@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
   },
@@ -25,5 +27,10 @@
     "globals": "^16.4.0",
     "tailwindcss": "^4.1.13",
     "vite": "^7.1.6"
-  }
+  },
+  "description": "- React + Javascript - Vite - Tailwind",
+  "main": "eslint.config.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }

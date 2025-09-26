@@ -16,6 +16,8 @@ export default function Button({ children, variant = "submit", onClick, type="bu
     setLoading(true);
     try {
       await onClick(e);
+
+      // await new Promise((resolve) => setTimeout(resolve, 1500));
     } 
     finally {
       setLoading(false);
@@ -28,5 +30,4 @@ export default function Button({ children, variant = "submit", onClick, type="bu
     </button>
   );
 }
-
 
